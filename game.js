@@ -181,7 +181,6 @@ function sendScore(playerName, score, completionTime) {
     render(sceneDiv.innerText + "\n\n⚠️ Kunne ikke lagre score");
   });
 }
-}
 
 // ---------------- START GAME ----------------
 scene0();
