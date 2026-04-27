@@ -1,7 +1,32 @@
+* {
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
 
+body {
+  margin: 0;
+  background: #0f0f14;
+  color: #f2f2f2;
+  display: flex;
+  justify-content: center;
+}
+
+.game {
+  width: 100%;
+  max-width: 520px;
+  padding: 16px;
+}
+
+.title {
+  text-align: center;
+  font-size: 1.6rem;
+  margin-bottom: 10px;
+}
+
+.castle {
   width: 100%;
   height: 180px;
-  background: url('Maulmont.svg') center/cover no-repeat;
+  background: url("Maulmont.svg") center/cover no-repeat;
   border-radius: 12px;
   margin-bottom: 12px;
 }
@@ -10,10 +35,9 @@
   background: #1b1b24;
   padding: 14px;
   border-radius: 12px;
-  min-height: 140px;
+  min-height: 160px;
   white-space: pre-line;
   line-height: 1.4;
-  font-size: 1rem;
 }
 
 input {
@@ -34,14 +58,4 @@ button {
   background: #6b4eff;
   color: white;
   font-size: 1rem;
-}
-
-button:active {
-  transform: scale(0.98);
-}
-
-.hint {
-  margin-top: 10px;
-  color: #b8b8ff;
-  font-size: 0.9rem;
 }
