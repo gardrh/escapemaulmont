@@ -1,29 +1,58 @@
-body {
-  background: #111;
-  color: #eee;
-  font-family: monospace;
+* {
+  max-width: 420px;
+  padding: 16px;
+}
+
+.title {
   text-align: center;
-}
-
-#app {
-  max-width: 700px;
-  margin: auto;
-}
-
-#scene {
-  white-space: pre-wrap;
-  margin: 20px 0;
-  text-align: left;
-}
-
-input {
-  padding: 10px;
-  width: 60%;
+  font-size: 1.5rem;
+  color: #000;
   margin-bottom: 10px;
 }
 
+.castle {
+  width: 100%;
+  height: 160px;
+  background: url("escapemaulmont/Maulmont.svg") center/contain no-repeat;
+  margin-bottom: 10px;
+}
+
+.story {
+  background: white;
+  color: black;
+  padding: 14px;
+  border-radius: 18px;
+  min-height: 140px;
+  line-height: 1.4;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  margin-top: 8px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+.btnRow {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
 button {
-  margin: 5px;
-  padding: 10px 15px;
-  cursor: pointer;
+  flex: 1;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background: black;
+  color: white;
+  font-size: 1rem;
+}
+
+button:active {
+  transform: scale(0.98);
 }
