@@ -1,3 +1,4 @@
+
 // ---------------- STATE ----------------
 let state = {
   scene: 0,
@@ -8,9 +9,6 @@ let state = {
 const sceneDiv = document.getElementById("scene");
 const input = document.getElementById("input");
 const buttonsDiv = document.getElementById("buttons");
-
-document.getElementById("submitBtn").onclick = handleInput;
-document.getElementById("hintBtn").onclick = showHint;
 
 // ---------------- RENDER ----------------
 function render(text, buttons = []) {
@@ -32,6 +30,11 @@ function handleInput() {
   next(val);
 }
 
+// Enter key support
+input?.addEventListener("keypress", function (e) {
+  if (e.key === "Enter") handleInput();
+});
+
 // ---------------- HINTS ----------------
 function showHint() {
   const hints = {
@@ -46,7 +49,7 @@ function showHint() {
 
 // ---------------- GAME FLOW ----------------
 function next(val) {
-  const answer = val.toUpperCase();
+  const answer = (val || "").toUpperCase();
 
   switch (state.scene) {
 
@@ -165,13 +168,16 @@ Bra jobba, ${state.player}!`);
 function sendScore(playerName, score, completionTime) {
   fetch("https://script.google.com/macros/s/AKfycbxtvbDjAO1hwbxGwwzIKYgPgZ3GsZwzLO4RjfpmK6DQVmOOioCN2aa93vG4rU32wZpZ/exec", {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
     body: JSON.stringify({
       player: playerName,
       score: score,
       time: completionTime
     })
   })
-  .then(res => res.text()) // 🔥 safer than .json()
+  .then(res => res.text())
   .then(data => {
     console.log("Saved!", data);
     render(sceneDiv.innerText + "\n\n✅ Score lagret!");
@@ -181,7 +187,11 @@ function sendScore(playerName, score, completionTime) {
     render(sceneDiv.innerText + "\n\n⚠️ Kunne ikke lagre score");
   });
 }
-}
 
 // ---------------- START GAME ----------------
-scene0();
+window.onload = () => {
+  state.scene = 0;
+  state.player = "";
+  state.startTime = Date.now();
+  scene0();
+};
