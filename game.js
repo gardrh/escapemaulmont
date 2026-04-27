@@ -1,8 +1,10 @@
 let state = {
-  scene: 0,
+  scene: 1,
   player: "",
   hints: 0,
-  lastHint: ""
+  lastHint: "",
+  score: 0,
+  startTime: Date.now()
 };
 
 const story = document.getElementById("story");
@@ -13,7 +15,6 @@ const hintBtn = document.getElementById("hintBtn");
 btn.onclick = handleInput;
 hintBtn.onclick = showHint;
 
-// Allow pressing Enter in input fields to submit
 input.addEventListener("keydown", (e) => { if (e.key === "Enter") handleInput(); });
 
 function handleInput() {
@@ -21,14 +22,6 @@ function handleInput() {
   input.value = "";
 
   switch (state.scene) {
-    case 0:
-      story.innerText =
-`Velkommen til mitt slott, jeg heter Renaud de Vichy!
-Jeg døde i 1256, men før den tid var jeg tempelridder i Jerusalem.
-Hvem er dere? (SKRIV NAVNET DERES)`;
-      state.scene = 1;
-      break;
-
     case 1:
       state.player = val || "Anonym";
       story.innerText =
@@ -64,6 +57,8 @@ Første oppgave starter nå.`;
       break;
 
     case 4:
+      // Example of finishing the game — call this when the last puzzle is solved:
+      // finishGame();
       story.innerText = "OPPGAVE 1 (din historie her)";
       break;
   }
@@ -75,7 +70,38 @@ function showHint() {
     return;
   }
   state.hints++;
+  state.score = Math.max(0, state.score - 10); // Deduct points per hint
   story.innerHTML += `\n\n💡 HINT: ${state.lastHint}`;
+}
+
+function finishGame() {
+  const completionTime = Math.floor((Date.now() - state.startTime) / 1000); // seconds
+  story.innerText = `🎉 Gratulerer ${state.player}! Dere klarte det!`;
+  sendScore(state.player, state.score, completionTime);
+}
+
+// ---------------- GOOGLE SHEETS ----------------
+function sendScore(playerName, score, completionTime) {
+  fetch("https://script.google.com/macros/s/AKfycbxtvbDjAO1hwbxGwwzIKYgPgZ3GsZwzLO4RjfpmK6DQVmOOioCN2aa93vG4rU32wZpZ/exec", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      player: playerName,
+      score: score,
+      time: completionTime
+    })
+  })
+  .then(res => res.text())
+  .then(data => {
+    console.log("Saved!", data);
+    story.innerText += `\n\n✅ Score lagret!`;
+  })
+  .catch(err => {
+    console.error("Error saving score", err);
+    story.innerText += `\n\n⚠️ Kunne ikke lagre score`;
+  });
 }
 
 function isWedding(val) {
