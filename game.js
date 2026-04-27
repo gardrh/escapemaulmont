@@ -25,9 +25,8 @@ function handleInput() {
     case 1:
       state.player = val || "Anonym";
       story.innerText =
-`Hei ${state.player}...
-Hvorfor er dere her hos et gammelt spøkelse?
-Hva er navnet på disse barbarene?`;
+`Hei ${state.player}...  Men hvorfor er dere her hos et gammelt spøkelse, som bare vil hvile i fred. 
+Er det kanskje noen som skal gifte seg? Hva er navnet på disse barbarene?`;
       state.scene = 2;
       state.lastHint = "Hva heter de som skal gifte seg?";
       break;
@@ -35,8 +34,9 @@ Hva er navnet på disse barbarene?`;
     case 2:
       if (isWedding(val)) {
         story.innerText =
-`Gudrun og Jens ja...
-Hvor kommer disse hedningene fra?`;
+`Gudrun og Jens ja, barbarer slik jeg trodde, det kunne ikke vært Pierre, eller Louis, eller Michelle eller Edith eller lignende. 
+Hvor er det disse hedningene kommer fra da?
+`;
         state.scene = 3;
         state.lastHint = "Hva heter stedet de kommer fra?";
       } else {
@@ -47,8 +47,8 @@ Hvor kommer disse hedningene fra?`;
     case 3:
       if (val.toLowerCase() === "skjåk") {
         story.innerText =
-`Ja... jeg har hørt om dette stedet.
-Første oppgave starter nå.`;
+`Ja jeg har snakket med en annen helligmann, Olav den Hellig var det vel. Det er synd  å brenne så fager ei bygd skal han ha sagt om Skjåk. 
+Vel vel, biensur og nok om det. Nå som dere er her, kan dere kan vise meg at dere er litt dannet. Kan dere fortelle meg hva den harde mannen til venstre for inngangen har på seg? `;
         state.scene = 4;
         state.lastHint = "";
       } else {
@@ -80,6 +80,11 @@ function finishGame() {
   sendScore(state.player, state.score, completionTime);
 }
 
+function isWedding(val) {
+  const a = val.toLowerCase();
+  return a.includes("jens") && a.includes("gudrun");
+}
+
 // ---------------- GOOGLE SHEETS ----------------
 function sendScore(playerName, score, completionTime) {
   fetch("https://script.google.com/macros/s/AKfycbxtvbDjAO1hwbxGwwzIKYgPgZ3GsZwzLO4RjfpmK6DQVmOOioCN2aa93vG4rU32wZpZ/exec", {
@@ -104,7 +109,4 @@ function sendScore(playerName, score, completionTime) {
   });
 }
 
-function isWedding(val) {
-  const a = val.toLowerCase();
-  return a.includes("jens") && a.includes("gudrun");
-}
+
