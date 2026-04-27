@@ -13,18 +13,18 @@ const hintBtn = document.getElementById("hintBtn");
 btn.onclick = handleInput;
 hintBtn.onclick = showHint;
 
-function handleInput() {
+// Allow pressing Enter in input fields to submit
+input.addEventListener("keydown", (e) => { if (e.key === "Enter") handleInput(); });
 
+function handleInput() {
   const val = input.value.trim();
   input.value = "";
 
   switch (state.scene) {
-
     case 0:
       story.innerText =
 `Velkommen til mitt slott, jeg heter Renaud de Vichy!
 Jeg døde i 1256, men før den tid var jeg tempelridder i Jerusalem.
-
 Hvem er dere? (SKRIV NAVNET DERES)`;
       state.scene = 1;
       break;
@@ -33,9 +33,7 @@ Hvem er dere? (SKRIV NAVNET DERES)`;
       state.player = val || "Anonym";
       story.innerText =
 `Hei ${state.player}...
-
 Hvorfor er dere her hos et gammelt spøkelse?
-
 Hva er navnet på disse barbarene?`;
       state.scene = 2;
       state.lastHint = "Hva heter de som skal gifte seg?";
@@ -45,12 +43,11 @@ Hva er navnet på disse barbarene?`;
       if (isWedding(val)) {
         story.innerText =
 `Gudrun og Jens ja...
-
 Hvor kommer disse hedningene fra?`;
         state.scene = 3;
         state.lastHint = "Hva heter stedet de kommer fra?";
       } else {
-        state.lastHint = "Hva heter de som skal gifte seg?";
+        story.innerHTML += `\n\n❓ Prøv igjen...`;
       }
       break;
 
@@ -58,11 +55,11 @@ Hvor kommer disse hedningene fra?`;
       if (val.toLowerCase() === "skjåk") {
         story.innerText =
 `Ja... jeg har hørt om dette stedet.
-
 Første oppgave starter nå.`;
         state.scene = 4;
+        state.lastHint = "";
       } else {
-        state.lastHint = "Hva heter stedet Gudrun og Jens kommer fra?";
+        story.innerHTML += `\n\n❓ Prøv igjen...`;
       }
       break;
 
@@ -73,15 +70,15 @@ Første oppgave starter nå.`;
 }
 
 function showHint() {
-  if (!state.lastHint) return;
+  if (!state.lastHint) {
+    story.innerHTML += `\n\n💡 Ingen hint tilgjengelig nå.`;
+    return;
+  }
   state.hints++;
   story.innerHTML += `\n\n💡 HINT: ${state.lastHint}`;
 }
 
 function isWedding(val) {
   const a = val.toLowerCase();
-  return (
-    (a.includes("jens") && a.includes("gudrun")) ||
-    (a.includes("gudrun") && a.includes("jens"))
-  );
+  return a.includes("jens") && a.includes("gudrun");
 }
