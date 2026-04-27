@@ -6,215 +6,40 @@ let state = {
   startTime: Date.now()
 };
 
-const sceneDiv = document.getElementById("scene");
+const story = document.getElementById("story");
 const input = document.getElementById("input");
-const buttonsDiv = document.getElementById("buttons");
+const btn = document.getElementById("submitBtn");
 
-// ---------------- RENDER ----------------
-function render(text, buttons = []) {
-  sceneDiv.innerText = text;
-  buttonsDiv.innerHTML = "";
+// ---------------- START ----------------
+window.addEventListener("DOMContentLoaded", () => {
+  btn.onclick = handleInput;
 
-  buttons.forEach(btn => {
-    const b = document.createElement("button");
-    b.innerText = btn.text;
-    b.onclick = btn.action;
-    buttonsDiv.appendChild(b);
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") handleInput();
   });
-}
+});
 
 // ---------------- INPUT ----------------
 function handleInput() {
   const val = input.value.trim();
   input.value = "";
-  next(val);
-}
 
-// Enter key support
-input?.addEventListener("keypress", function (e) {
-  if (e.key === "Enter") handleInput();
-});
-
-// ---------------- HINTS ----------------
-function showHint() {
-  const hints = {
-    1: "Han liker kallenavnet sitt 😉",
-    2: "Sjekk vær og føremelding",
-    3: "Noe han bruker hver dag...",
-    5: "Google er lov 😄"
-  };
-
-  alert(hints[state.scene] || "Ingen hint her!");
-}
-
-// ---------------- GAME FLOW ----------------
-function next(val) {
-  const answer = (val || "").toUpperCase();
-
-  switch (state.scene) {
-
-    case 0:
-      state.player = val || "Anonym";
-      state.scene = 1;
-      scene1();
-      break;
-
-    case 1:
-      if (answer === "STORKAR") {
-        state.scene = 2;
-        scene2();
-      } else {
-        alert("Gamle-Erik reagerer ikke... prøv igjen!");
-      }
-      break;
-
-    case 2:
-      if (answer === "BLÅ" || answer === "BLA") {
-        state.scene = 3;
-        scene3();
-      } else {
-        alert("Feil! Tenk på føret.");
-      }
-      break;
-
-    case 3:
-      if (answer === "TERMOSEN") {
-        state.scene = 4;
-        scene4();
-      } else {
-        alert("Feil! Let et sted han bruker mye.");
-      }
-      break;
-
-    case 4:
-      if (answer === "NEI") {
-        state.scene = 5;
-        scene5();
-      } else {
-        alert("Er dere HELT sikre?");
-      }
-      break;
-
-    case 5:
-      if (answer === "GRUSOMT FØRE" || answer === "GRUSOMT FORE") {
-        state.scene = 6;
-        scene6();
-      } else {
-        alert("Ikke helt riktig...");
-      }
-      break;
+  if (state.scene === 0) {
+    state.player = val || "Anonym";
+    state.scene = 1;
+    scene1();
   }
 }
 
-// ---------------- SCENES ----------------
-
-function scene0() {
-  render("Hva heter du?");
-}
-
+// ---------------- SCENE 1 ----------------
 function scene1() {
-  render(`Dere går inn i smøreboden...
+  story.innerText = `
+Velkommen ${state.player}...
 
-Gamle-Erik:
-"Jassåå folkens, er det dere?"
+Renaud de Vichy:
+"Jeg døde i 1256, men jeg lever fortsatt..."
 
-Hva svarer dere?`);
+Men hvem er dere?
+(SKRIV NAVNET DERES)
+`;
 }
-
-function scene2() {
-  render(`Gamle-Erik:
-"Jeg har voksa ski med rød... men det er kanskje feil."
-
-Hvilken farge trenger han?`);
-}
-
-function scene3() {
-  render(`"SNØRRUNGER! Hvor er blåsmøringa?!"
-
-Hvor er den?`);
-}
-
-function scene4() {
-  render(`"Har dere kødda med meg!?"
-
-Velg svar:`, [
-    { text: "JA", action: () => alert("Dårlig idé 😅") },
-    { text: "NEI", action: () => next("NEI") }
-  ]);
-}
-
-function scene5() {
-  render(`Hva sa han om føret etter turen?`);
-}
-
-function scene6() {
-  const time = Math.floor((Date.now() - state.startTime) / 1000);
-  const score = Math.max(0, 1000 - time);
-
-  render(`🎉 GRATULERER 🎉
-
-Du slapp ut av smøreboden!
-
-Tid: ${time} sekunder
-Score: ${score}
-
-Bra jobba, ${state.player}!`);
-
-  sendScore(state.player, score, time);
-}
-
-// ---------------- GOOGLE SHEETS ----------------
-
-function sendScore(playerName, score, completionTime) {
-  fetch("https://script.google.com/macros/s/AKfycbxtvbDjAO1hwbxGwwzIKYgPgZ3GsZwzLO4RjfpmK6DQVmOOioCN2aa93vG4rU32wZpZ/exec", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      player: playerName,
-      score: score,
-      time: completionTime
-    })
-  })
-  .then(res => res.text())
-  .then(data => {
-    console.log("Saved!", data);
-    render(sceneDiv.innerText + "\n\n✅ Score lagret!");
-  })
-  .catch(err => {
-    console.error("Error saving score", err);
-    render(sceneDiv.innerText + "\n\n⚠️ Kunne ikke lagre score");
-  });
-}
-
-// ---------------- START GAME (FIXED) ----------------
-function initGame() {
-  state.scene = 0;
-  state.player = "";
-  state.startTime = Date.now();
-
-  // make sure elements exist
-  const submitBtn = document.getElementById("submitBtn");
-  const hintBtn = document.getElementById("hintBtn");
-
-  if (!submitBtn || !hintBtn || !input) {
-    console.error("Missing HTML elements!");
-    return;
-  }
-
-  // bind buttons
-  submitBtn.onclick = handleInput;
-  hintBtn.onclick = showHint;
-
-  // Enter key support
-  input.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") handleInput();
-  });
-
-  // start first scene
-  scene0();
-}
-
-// run when DOM is fully ready
-window.addEventListener("DOMContentLoaded", initGame);
