@@ -163,7 +163,7 @@ Bra jobba, ${state.player}!`);
 // ---------------- GOOGLE SHEETS ----------------
 
 function sendScore(playerName, score, completionTime) {
-  fetch("https://script.google.com/macros/s/AKfycbxtvbDjAO1hwbxGwwzIKYgPgZ3GsZwzLO4RjfpmK6DQVmOOioCN2aa93vG4rU32wZpZ/exec", {
+  fetch("https://script.google.com/macros/s/AKfycby1e_sU65B268R8i0zt8yBt-D3rl4nd1_3FhIniHU88vjF1XLsFUWf0zbmtjuSioJiz/exec", {
     method: "POST",
     body: JSON.stringify({
       player: playerName,
