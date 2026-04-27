@@ -165,13 +165,16 @@ Bra jobba, ${state.player}!`);
 function sendScore(playerName, score, completionTime) {
   fetch("https://script.google.com/macros/s/AKfycbxtvbDjAO1hwbxGwwzIKYgPgZ3GsZwzLO4RjfpmK6DQVmOOioCN2aa93vG4rU32wZpZ/exec", {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
     body: JSON.stringify({
       player: playerName,
       score: score,
       time: completionTime
     })
   })
-  .then(res => res.text()) // 🔥 safer than .json()
+  .then(res => res.json())
   .then(data => {
     console.log("Saved!", data);
     render(sceneDiv.innerText + "\n\n✅ Score lagret!");
