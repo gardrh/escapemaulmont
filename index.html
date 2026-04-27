@@ -4,29 +4,25 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Escape from Chateau Maulmont</title>
-
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-
 <div class="game">
-
   <h1 class="title">Escape from Chateau Maulmont</h1>
 
-  <div class="castle"></div>
-
-  <div class="story" id="story">
-    Velkommen til slottet...
+  <div class="castle">
+    <object data="Maulmont.svg" type="image/svg+xml" width="100%" height="180"></object>
   </div>
 
+  <div class="story" id="story">Velkommen til slottet...</div>
+
   <input id="input" placeholder="Skriv svar..." />
-  <input id="input2" placeholder="(valgfritt)" />
 
-  <button id="submitBtn">SVAR</button>
-
+  <div class="btnRow">
+    <button id="submitBtn">SVAR</button>
+    <button id="hintBtn">HINT</button>
+  </div>
 </div>
-
 <script src="game.js"></script>
 </body>
 </html>
