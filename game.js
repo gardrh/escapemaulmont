@@ -1,45 +1,65 @@
-
-// ---------------- STATE ----------------
 let state = {
   scene: 0,
   player: "",
-  startTime: Date.now()
+  hints: 0
 };
 
 const story = document.getElementById("story");
 const input = document.getElementById("input");
 const btn = document.getElementById("submitBtn");
 
-// ---------------- START ----------------
-window.addEventListener("DOMContentLoaded", () => {
-  btn.onclick = handleInput;
-
-  input.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") handleInput();
-  });
+btn.onclick = handleInput;
+input.addEventListener("keydown", e => {
+  if (e.key === "Enter") handleInput();
 });
 
-// ---------------- INPUT ----------------
 function handleInput() {
   const val = input.value.trim();
   input.value = "";
 
   if (state.scene === 0) {
-    state.player = val || "Anonym";
+    story.innerText = "Hva heter du, fremmede?";
     state.scene = 1;
-    scene1();
+    return;
+  }
+
+  if (state.scene === 1) {
+    state.player = val || "Anonym";
+    state.scene = 2;
+    introScene();
+    return;
+  }
+
+  if (state.scene === 2) {
+    handleCastleInput(val);
   }
 }
 
-// ---------------- SCENE 1 ----------------
-function scene1() {
-  story.innerText = `
-Velkommen ${state.player}...
+function introScene() {
+  story.innerText =
+`Velkommen ${state.player}...
 
-Renaud de Vichy:
-"Jeg døde i 1256, men jeg lever fortsatt..."
+Du står foran Chateau Maulmont.
+Noe i slottet våkner når du nærmer deg.
 
-Men hvem er dere?
-(SKRIV NAVNET DERES)
-`;
+Hva gjør du?`;
+}
+
+function handleCastleInput(val) {
+  const cmd = val.toLowerCase();
+
+  if (cmd.includes("dør")) {
+    showHint("Døren reagerer på symboler, ikke kraft.");
+  } else if (cmd.includes("se")) {
+    story.innerText = "Du ser en ulv risset inn i steinen...";
+  } else if (cmd.includes("hint")) {
+    showHint("Prøv å undersøke døren nærmere.");
+  } else {
+    story.innerText = "Renaud hvisker: 'Slottet forstår deg ikke ennå...'";
+  }
+}
+
+function showHint(text) {
+  state.hints++;
+  story.innerHTML += `\n\n<span class='hint'>HINT: ${text}</span>`;
 }
