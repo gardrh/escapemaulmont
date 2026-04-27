@@ -188,10 +188,33 @@ function sendScore(playerName, score, completionTime) {
   });
 }
 
-// ---------------- START GAME ----------------
-window.onload = () => {
+// ---------------- START GAME (FIXED) ----------------
+function initGame() {
   state.scene = 0;
   state.player = "";
   state.startTime = Date.now();
+
+  // make sure elements exist
+  const submitBtn = document.getElementById("submitBtn");
+  const hintBtn = document.getElementById("hintBtn");
+
+  if (!submitBtn || !hintBtn || !input) {
+    console.error("Missing HTML elements!");
+    return;
+  }
+
+  // bind buttons
+  submitBtn.onclick = handleInput;
+  hintBtn.onclick = showHint;
+
+  // Enter key support
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") handleInput();
+  });
+
+  // start first scene
   scene0();
-};
+}
+
+// run when DOM is fully ready
+window.addEventListener("DOMContentLoaded", initGame);
