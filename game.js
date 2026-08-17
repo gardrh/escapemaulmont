@@ -1,245 +1,259 @@
+/* ══════════════════════════════════════════
+   Escape from Chateau Maulmont – game.js
+══════════════════════════════════════════ */
 
-// ---------------- STATE ----------------
-let state = {
-  scene: 0,
-  player: "",
-  startTime: Date.now()
-};
+/* ── SCENE DATA ── */
+const scenes = [
+  {
+    chapter: "Innledning",
+    renaud: { src: "renaud.png", cls: "" },
+    text: `Velkommen til mitt slott, jeg heter Renaud de Vichy! Jeg døde i 1256, men før den tid var jeg tempelridder i Jerusalem, og grunnla min residens her kort tid før jeg døde.
 
-const sceneDiv = document.getElementById("scene");
-const input = document.getElementById("input");
-const buttonsDiv = document.getElementById("buttons");
+Heldigvis er ikke døden slutten, og jeg lever videre som et spøkelse.
 
-// ---------------- RENDER ----------------
-function render(text, buttons = []) {
-  sceneDiv.innerText = text;
-  buttonsDiv.innerHTML = "";
+Men hvem er dere? (SKRIV NAVNET DERES)`,
+    answers: ["_name_"],
+    hints: []
+  },
+  {
+    chapter: "Scene 1",
+    renaud: { src: "renaud.png", cls: "flip" },
+    text: `Hei {name}, det var hyggelig. Men hvorfor er dere her hos et gammelt spøkelse, som bare vil hvile i fred — er det kanskje noen som skal gifte seg?
 
-  buttons.forEach(btn => {
-    const b = document.createElement("button");
-    b.innerText = btn.text;
-    b.onclick = btn.action;
-    buttonsDiv.appendChild(b);
-  });
-}
+Hva er navnet på disse barbarene?`,
+    answers: ["_wedding_"],
+    hints: [
+      "Hva heter de som skal gifte seg?",
+      "Det er to navn — ett mannsnavn og ett kvinnenavn."
+    ]
+  },
+  {
+    chapter: "Scene 2",
+    renaud: { src: "renaud.png", cls: "dim" },
+    text: `Gudrun og Jens ja, barbarer slik jeg trodde — det kunne ikke vært Pierre, eller Louis, eller Michelle eller Edith eller lignende.
 
-// ---------------- INPUT ----------------
-function handleInput() {
-  const val = input.value.trim();
-  input.value = "";
-  next(val);
-}
+Hvor er det disse hedningene kommer fra da?`,
+    answers: ["skjåk", "skjaak"],
+    hints: [
+      "Hva heter stedet Gudrun og Jens kommer fra?",
+      "Det er et sted i Oppland, kjent for natur og tradisjon."
+    ]
+  },
+  {
+    chapter: "Scene 3",
+    renaud: { src: "renaud.png", cls: "" },
+    text: `Ja, jeg har snakket med en annen helligmann — Olav den Hellig var det vel. Det er synd å brenne så fager ei bygd, skal han ha sagt om Skjåk. Vel vel, biensur og nok om det.
 
-// Enter key support
-input?.addEventListener("keypress", function (e) {
-  if (e.key === "Enter") handleInput();
-});
+Jeg har helt glemt rustningen min, kan dere si meg hvor jeg har lagt den?`,
+    answers: ["resepsjonen", "resepsjon"],
+    hints: [
+      "Hva heter dette rommet i hotellverden?",
+      "Det er stedet du sjekker inn når du ankommer et hotell."
+    ]
+  },
+  {
+    chapter: "Scene 4",
+    renaud: { src: "renaud.png", cls: "flip" },
+    text: `Der var den ja, den er grei å ha når jeg skal ut i krigen. Nå som dere har funnet rustningen min, kan dere sjekke dybden på bassenget for meg — om det er for dypt kan jeg ikke bade med rustningen.
 
-// ---------------- HINTS ----------------
-function showHint() {
-  const hints = {
-    1: "Han liker kallenavnet sitt 😉",
-    2: "Sjekk vær og føremelding",
-    3: "Noe han bruker hver dag...",
-    5: "Google er lov 😄"
-  };
+Hvor mange meter dypt er bassenget?`,
+    answers: ["1.5", "1.50", "1,50", "150 cm", "150cm", "1,5"],
+    hints: [
+      "Svaret er et tall i meter.",
+      "Det er ikke veldig dypt — tenk grunt basseng."
+    ]
+  },
+  {
+    chapter: "Scene 5",
+    renaud: { src: "renaud.png", cls: "dim" },
+    text: `Oi, det var jammen flaks — da kan jeg jo bade uten å drukne! Med mindre jeg faller, men det har jeg ikke gjort siden den ene gangen i Jerusalem. Huff det var flaut, men tres bon, gråt ikke over spilt vin.
 
-  alert(hints[state.scene] || "Ingen hint her!");
-}
+Det er altså slik at noen nordboere vil gifte seg her hos meg. For at de skal få lov til det må dere løse TO oppgaver til. Om ikke vil jeg ule i trærne gjennom bryllupskvelden.
 
-// ---------------- GAME FLOW ----------------
-function next(val) {
-  const answer = (val || "").toUpperCase();
+Det finnes et piano i huset. Hvilket merke er dette?`,
+    answers: ["samick"],
+    hints: [
+      "Pianoet står i første etasje.",
+      "Se etter merkenavnet på selve instrumentet."
+    ]
+  },
+  {
+    chapter: "Scene 6",
+    renaud: { src: "renaud.png", cls: "" },
+    text: `Jeg trodde kanskje dere ikke visste hva et piano var, barbariske nordboere som dere stort sett er (med noen unntak!).
 
-  switch (state.scene) {
+Nu vel, til slutt — for at dette skal gå veien for brudeparet har jeg en siste oppgave.
 
-    case 0:
-      state.player = val || "Anonym";
-      state.scene = 1;
-      scene1();
-      break;
+Hvor mange østers kan man spise før man kreperer, slik tempelridderordenen gjorde ved slaget i Acre i 1291?`,
+    answers: ["1", "én", "en"],
+    hints: [
+      "Det finnes informasjon om dette ved inngangen til slottet.",
+      "Svaret er et svært lavt tall."
+    ]
+  },
+  {
+    chapter: "Finale",
+    renaud: { src: "renaud.png", cls: "ghost" },
+    text: `Gratulerer til dere, og condoléances til meg — dette blir nok et veldig leven. Dere har løst den store Renaud de Vichys gåter.
 
-    case 1:
-      if (answer === "STORKAR") {
-        state.scene = 2;
-        scene2();
-      } else {
-        alert("Gamle-Erik reagerer ikke... prøv igjen!");
-      }
-      break;
-
-    case 2:
-      if (answer === "BLÅ" || answer === "BLA") {
-        state.scene = 3;
-        scene3();
-      } else {
-        alert("Feil! Tenk på føret.");
-      }
-      break;
-
-    case 3:
-      if (answer === "TERMOSEN") {
-        state.scene = 4;
-        scene4();
-      } else {
-        alert("Feil! Let et sted han bruker mye.");
-      }
-      break;
-
-    case 4:
-      if (answer === "NEI") {
-        state.scene = 5;
-        scene5();
-      } else {
-        alert("Er dere HELT sikre?");
-      }
-      break;
-
-    case 5:
-      if (answer === "GRUSOMT FØRE" || answer === "GRUSOMT FORE") {
-        state.scene = 6;
-        scene6();
-      } else {
-        alert("Ikke helt riktig...");
-      }
-      break;
+Jeg trekker meg tilbake i veggen der jeg kom fra.`,
+    answers: ["_finish_"],
+    hints: []
   }
+];
+
+/* ── STATE ── */
+let currentScene = parseInt(sessionStorage.getItem('maulmont_scene') || '0');
+let playerName   = sessionStorage.getItem('maulmont_name') || '';
+let hintIndex    = 0;
+let startTime    = parseInt(sessionStorage.getItem('maulmont_start') || Date.now());
+sessionStorage.setItem('maulmont_start', startTime);
+
+/* ── DOM ── */
+const story     = document.getElementById('story');
+const input     = document.getElementById('input');
+const submitBtn = document.getElementById('submitBtn');
+const hintBtn   = document.getElementById('hintBtn');
+const renaudImg = document.getElementById('renaudImg');
+
+/* ── INIT ── */
+submitBtn.addEventListener('click', handleAnswer);
+hintBtn.addEventListener('click', handleHint);
+input.addEventListener('keydown', e => { if (e.key === 'Enter') handleAnswer(); });
+renderScene();
+
+/* ── RENDER ── */
+function renderScene() {
+  const s = scenes[currentScene];
+  const isFinal = s.answers[0] === '_finish_';
+  const isName  = s.answers[0] === '_name_';
+
+  // illustration
+  renaudImg.src = s.renaud.src;
+  renaudImg.className = 'fade-in ' + s.renaud.cls;
+
+  // text
+  story.innerText = s.text.replace('{name}', playerName);
+
+  // input + buttons
+  input.style.display     = isFinal ? 'none' : '';
+  hintBtn.style.display   = s.hints.length ? '' : 'none';
+  input.placeholder       = isName ? 'Skriv navnet ditt...' : 'Skriv svar...';
+  submitBtn.textContent   = isFinal ? 'Avslutt →' : 'SVAR';
+
+  clearFeedback();
+  hintIndex = 0;
 }
 
-// ---------------- SCENES ----------------
+/* ── ANSWER ── */
+function handleAnswer() {
+  const s   = scenes[currentScene];
+  const val = input.value.trim();
 
-function scene0() {
-  render("Hva heter du?");
-}
-
-function scene1() {
-  render(`Dere går inn i smøreboden...
-
-Gamle-Erik:
-"Jassåå folkens, er det dere?"
-
-Hva svarer dere?`);
-}
-
-function scene2() {
-  render(`Gamle-Erik:
-"Jeg har voksa ski med rød... men det er kanskje feil."
-
-Hvilken farge trenger han?`);
-}
-
-function scene3() {
-  render(`"SNØRRUNGER! Hvor er blåsmøringa?!"
-
-Hvor er den?`);
-}
-
-function scene4() {
-  render(`"Har dere kødda med meg!?"
-
-Velg svar:`, [
-    { text: "JA", action: () => alert("Dårlig idé 😅") },
-    { text: "NEI", action: () => next("NEI") }
-  ]);
-}
-
-function scene5() {
-  render(`Hva sa han om føret etter turen?`);
-}
-
-function scene6() {
-  const time = Math.floor((Date.now() - state.startTime) / 1000);
-  const score = Math.max(0, 1000 - time);
-
-  render(`🎉 GRATULERER 🎉
-
-Du slapp ut av smøreboden!
-
-Tid: ${time} sekunder
-Score: ${score}
-
-Bra jobba, ${state.player}!`);
-
-  sendScore(state.player, score, time);
-}
-
-// ---------------- GOOGLE SHEETS ----------------
-
-function sendScore(playerName, score, completionTime) {
-  fetch("https://script.google.com/macros/s/AKfycbxtvbDjAO1hwbxGwwzIKYgPgZ3GsZwzLO4RjfpmK6DQVmOOioCN2aa93vG4rU32wZpZ/exec", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      player: playerName,
-      score: score,
-      time: completionTime
-    })
-  })
-  .then(res => res.text())
-  .then(data => {
-    console.log("Saved!", data);
-    render(sceneDiv.innerText + "\n\n✅ Score lagret!");
-  })
-  .catch(err => {
-    console.error("Error saving score", err);
-    render(sceneDiv.innerText + "\n\n⚠️ Kunne ikke lagre score");
-  });
-}
-
-// ---------------- START GAME (FIXED) ----------------
-function initGame() {
-  state.scene = 0;
-  state.player = "";
-  state.startTime = Date.now();
-
-  // make sure elements exist
-  const submitBtn = document.getElementById("submitBtn");
-  const hintBtn = document.getElementById("hintBtn");
-
-  if (!submitBtn || !hintBtn || !input) {
-    console.error("Missing HTML elements!");
+  if (s.answers[0] === '_finish_') {
+    finishGame();
     return;
   }
 
-  // bind buttons
-  submitBtn.onclick = handleInput;
-  hintBtn.onclick = showHint;
+  if (s.answers[0] === '_name_') {
+    if (!val) return;
+    playerName = val;
+    sessionStorage.setItem('maulmont_name', playerName);
+    advance();
+    return;
+  }
 
-  // Enter key support
-  input.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") handleInput();
-  });
+  if (s.answers[0] === '_wedding_') {
+    const a = val.toLowerCase();
+    if (a.includes('jens') && a.includes('gudrun')) {
+      advance();
+    } else {
+      setFeedback('wrong', '✕', 'Prøv igjen, eller trykk Hint.');
+    }
+    return;
+  }
 
-  // start first scene
-  scene0();
+  const norm = val.toLowerCase().trim().replace(',', '.');
+  const correct = s.answers.some(a => norm === a.replace(',', '.'));
+  if (correct) {
+    advance();
+  } else {
+    setFeedback('wrong', '✕', 'Ikke helt riktig — prøv igjen, eller trykk Hint.');
+  }
 }
 
-// run when DOM is fully ready
-window.addEventListener("DOMContentLoaded", initGame);
+function advance() {
+  input.value = '';
+  currentScene++;
+  sessionStorage.setItem('maulmont_scene', currentScene);
+  renderScene();
+}
 
-// ---------------- GOOGLE SHEETS ----------------
+/* ── HINT ── */
+function handleHint() {
+  const s = scenes[currentScene];
+  if (!s.hints.length) return;
+  const hint = s.hints[Math.min(hintIndex, s.hints.length - 1)];
+  hintIndex = Math.min(hintIndex + 1, s.hints.length);
+  setFeedback('hint', '💡', hint);
+}
 
-function sendScore(playerName, score, completionTime) {
+/* ── FEEDBACK ── */
+function clearFeedback() {
+  story.querySelectorAll('.feedback').forEach(el => el.remove());
+}
+
+function setFeedback(type, icon, text) {
+  clearFeedback();
+  const fb = document.createElement('div');
+  fb.className = 'feedback ' + type;
+  fb.style.marginTop = '12px';
+  fb.style.fontStyle = 'italic';
+  fb.style.color = type === 'wrong' ? '#c00' : '#555';
+  fb.textContent = icon + ' ' + text;
+  story.appendChild(fb);
+}
+
+/* ── FINISH ── */
+function finishGame() {
+  const elapsed = Math.floor((Date.now() - startTime) / 1000);
+  const mins = Math.floor(elapsed / 60);
+  const secs = elapsed % 60;
+
+  sessionStorage.removeItem('maulmont_scene');
+  sessionStorage.removeItem('maulmont_name');
+  sessionStorage.removeItem('maulmont_start');
+
+  input.style.display   = 'none';
+  hintBtn.style.display = 'none';
+  submitBtn.style.display = 'none';
+
+  story.innerHTML = `🎉 <b>Gratulerer!</b> Dere har løst den store Renaud de Vichys gåter.<br><br>
+Tid brukt: <b>${mins}m ${secs}s</b><br><br>
+Renaud trekker seg tilbake i veggen der han kom fra.<br><br>
+<div class="share-row">
+  <button class="share-btn share-x"  onclick="shareX()">Del på X</button>
+  <button class="share-btn share-fb" onclick="shareFacebook()">Del på Facebook</button>
+  <button class="share-btn share-wa" onclick="shareWhatsApp()">Del på WhatsApp</button>
+</div>`;
+
+  sendScore(playerName, elapsed);
+}
+
+/* ── SHARE ── */
+const shareText = 'Jeg løste Escape from Chateau Maulmont! 🏰 Prøv selv!';
+function shareX()         { window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText + ' ' + location.href)}`, '_blank'); }
+function shareFacebook()  { window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(location.href)}`, '_blank'); }
+function shareWhatsApp()  { window.open(`https://wa.me/?text=${encodeURIComponent(shareText + ' ' + location.href)}`, '_blank'); }
+
+/* ── GOOGLE SHEETS ── */
+function sendScore(playerName, completionTime) {
   fetch("https://script.google.com/macros/s/AKfycbxtvbDjAO1hwbxGwwzIKYgPgZ3GsZwzLO4RjfpmK6DQVmOOioCN2aa93vG4rU32wZpZ/exec", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      player: playerName,
-      score: score,
-      time: completionTime
-    })
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ player: playerName, time: completionTime })
   })
   .then(res => res.text())
-  .then(data => {
-    console.log("Saved!", data);
-    render(sceneDiv.innerText + "\n\n✅ Score lagret!");
-  })
-  .catch(err => {
-    console.error("Error saving score", err);
-    render(sceneDiv.innerText + "\n\n⚠️ Kunne ikke lagre score");
-  });
+  .then(() => { story.innerHTML += `<br><br>✅ Score lagret!`; })
+  .catch(() => { story.innerHTML += `<br><br>⚠️ Kunne ikke lagre score.`; });
 }
