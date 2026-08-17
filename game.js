@@ -91,7 +91,7 @@ const script = {
     },
     /* 8 – Finale */
     {
-      renaud: "img/renaud8.png", cls: "ghost",
+      renaud: "img/renaud8.png", cls: "",
       text: "Gratulerer til dere, og condoléances til meg — dette blir nok et veldig leven. Dere har løst den store Renaud de Vichys gåter.\n\nJeg trekker meg tilbake i veggen der jeg kom fra.\n\nSpillet er slutt.",
       answers: ["_finish_"],
       hints: []
@@ -175,7 +175,7 @@ const script = {
     },
     /* 8 */
     {
-      renaud: "img/renaud8.png", cls: "ghost",
+      renaud: "img/renaud8.png", cls: "",
       text: "Congratulations to you, and condolences to me — this will no doubt be quite a racket. You have solved the great Renaud de Vichy's riddles.\n\nI withdraw into the wall from whence I came.\n\nGame over.",
       answers: ["_finish_"],
       hints: []
@@ -259,7 +259,7 @@ const script = {
     },
     /* 8 */
     {
-      renaud: "img/renaud8.png", cls: "ghost",
+      renaud: "img/renaud8.png", cls: "",
       text: "Félicitations à vous, et condoléances à moi — ce sera sans doute un sacré vacarme. Vous avez résolu les énigmes du grand Renaud de Vichy.\n\nJe me retire dans le mur d'où je suis venu.\n\nFin du jeu.",
       answers: ["_finish_"],
       hints: []
@@ -412,20 +412,10 @@ function finishGame() {
     ? `Time: <b>${mins}m ${secs}s</b>`
     : `Tid brukt: <b>${mins}m ${secs}s</b>`;
 
-  story.innerHTML = `🎉 ${story.innerHTML}<br><br>${timeStr}<br><br>
-<div class="share-row">
-  <button class="share-btn share-x"  onclick="shareX()">X</button>
-  <button class="share-btn share-fb" onclick="shareFacebook()">Facebook</button>
-  <button class="share-btn share-wa" onclick="shareWhatsApp()">WhatsApp</button>
-</div>`;
+  story.innerHTML = `🎉 ${story.innerHTML}<br><br>${timeStr}`;
 
   sendScore(playerName, elapsed);
 }
-
-/* ── SHARE ── */
-function shareX()        { window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(ui[lang].shareText + ' ' + location.href)}`, '_blank'); }
-function shareFacebook() { window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(location.href)}`, '_blank'); }
-function shareWhatsApp() { window.open(`https://wa.me/?text=${encodeURIComponent(ui[lang].shareText + ' ' + location.href)}`, '_blank'); }
 
 /* ── GOOGLE SHEETS ── */
 function sendScore(playerName, completionTime) {
