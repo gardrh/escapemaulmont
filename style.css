@@ -236,3 +236,110 @@ button:active { transform: scale(0.97); }
 .share-x  { background: linear-gradient(180deg, #222 0%, #000 100%); }
 .share-fb { background: linear-gradient(180deg, #2a5fc4 0%, #1a3d8f 100%); }
 .share-wa { background: linear-gradient(180deg, #30c060 0%, #1a7a3a 100%); }
+
+/* ── SKIP BUTTON ── */
+.skip-btn {
+  background: linear-gradient(180deg, #2a2a1a 0%, #111108 100%) !important;
+  color: #a09060 !important;
+  border-color: #5a5020 !important;
+  font-size: 0.85rem !important;
+  flex: 0 0 auto;
+  padding: 14px 12px !important;
+}
+.skip-btn:hover {
+  background: linear-gradient(180deg, #3a3a22 0%, #1a1a0a 100%) !important;
+  color: #c0b070 !important;
+}
+
+/* ── LEADERBOARD ── */
+.leaderboard {
+  display: none;
+  margin-top: 28px;
+  border: 2px solid #8b2020;
+  box-shadow: 0 0 0 4px #4a1008, 0 8px 30px rgba(0,0,0,0.7);
+  border-radius: 4px;
+  overflow: hidden;
+  background: #120600;
+}
+
+.lb-title {
+  text-align: center;
+  font-family: 'IM Fell English', Georgia, serif;
+  font-variant: small-caps;
+  font-size: 1.1rem;
+  color: #d4a84b;
+  padding: 14px;
+  background: linear-gradient(180deg, #2a0808 0%, #1a0404 100%);
+  border-bottom: 2px solid #8b2020;
+  letter-spacing: 0.15em;
+  text-shadow: 0 0 10px rgba(212,168,75,0.5);
+}
+
+.lb-loading, .lb-error {
+  text-align: center;
+  padding: 16px;
+  color: #7a5530;
+  font-style: italic;
+}
+
+.lb-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'IM Fell English', Georgia, serif;
+  font-size: 0.9rem;
+}
+
+.lb-table thead tr {
+  background: #1e0a00;
+  border-bottom: 1px solid #8b2020;
+}
+
+.lb-table thead th {
+  padding: 10px 12px;
+  color: #8b2020;
+  font-variant: small-caps;
+  letter-spacing: 0.1em;
+  text-align: left;
+}
+
+.lb-table tbody tr {
+  border-bottom: 1px solid #2a1000;
+  transition: background 0.15s;
+}
+
+.lb-table tbody tr:hover {
+  background: #1e0c00;
+}
+
+.lb-table tbody td {
+  padding: 10px 12px;
+  color: #c8a870;
+}
+
+.lb-table tbody tr:first-child td {
+  color: #d4a84b;
+  font-weight: bold;
+}
+
+/* Highlight current player */
+.lb-table tr.lb-me td {
+  color: #fff;
+  background: rgba(139,32,32,0.3);
+}
+
+.lb-more {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(180deg, #1e0a00 0%, #120600 100%);
+  border: none;
+  border-top: 1px solid #8b2020;
+  color: #8b2020;
+  font-family: 'IM Fell English', Georgia, serif;
+  font-variant: small-caps;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: color 0.15s;
+}
+.lb-more:hover { color: #d4a84b; }
