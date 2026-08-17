@@ -2,24 +2,31 @@
 <html lang="no">
 <head>
   <meta charset="UTF-8">
-  <title>Escape from Smøreboden</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Escape from Chateau Maulmont</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<div class="game">
+  <h1 class="title">Escape from Chateau Maulmont</h1>
 
-<div id="app">
-  <h1>⚡ Escape from Chateau Maulmont ⚡</h1>
+  <div class="castle">
+    <img src="maulmont.png" alt="Chateau Maulmont" />
+  </div>
 
-  <div id="scene"></div>
+  <div class="renaud-wrap">
+    <img id="renaudImg" src="renaud.png" alt="Renaud de Vichy" />
+  </div>
+
+  <div class="story" id="story"></div>
 
   <input id="input" placeholder="Skriv svar..." />
-  
-  <div id="buttons"></div>
 
-  <button id="submitBtn">Svar</button>
-  <button id="hintBtn">Hint</button>
+  <div class="btnRow">
+    <button id="submitBtn">SVAR</button>
+    <button id="hintBtn">HINT</button>
+  </div>
 </div>
-
 <script src="game.js"></script>
 </body>
 </html>
