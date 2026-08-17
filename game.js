@@ -3,7 +3,7 @@
    Languages: no / en / fr
 ══════════════════════════════════════════ */
 
-const SHEET_URL = "https://script.google.com/macros/s/AKfycbxtvbDjAO1hwbxGwwzIKYgPgZ3GsZwzLO4RjfpmK6DQVmOOioCN2aa93vG4rU32wZpZ/exec";
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbyRE92wBWNPZHIT9AzC3tMRJctRz6s-xHIA2rfMYzAIDp4saqaHDcppIXzM1-6VVXBv9Q/exec";
 
 let lang        = 'no';
 let playerName  = sessionStorage.getItem('maulmont_name') || '';
