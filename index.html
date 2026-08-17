@@ -20,7 +20,6 @@
 
   <div class="story" id="story"></div>
 
-  <!-- Language select buttons (scene 0 only) -->
   <div id="langBtns" class="langBtns">
     <button onclick="selectLang('no')">🇳🇴 Norsk</button>
     <button onclick="selectLang('en')">🇬🇧 English</button>
@@ -32,7 +31,10 @@
   <div class="btnRow">
     <button id="submitBtn">SVAR</button>
     <button id="hintBtn">HINT</button>
+    <button id="skipBtn" class="skip-btn">HOPP OVER</button>
   </div>
+
+  <div id="leaderboard" class="leaderboard"></div>
 </div>
 <script src="game.js"></script>
 </body>
