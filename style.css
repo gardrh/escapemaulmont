@@ -147,3 +147,26 @@ button:active { transform: scale(0.97); }
 .share-x  { background: #000; }
 .share-fb { background: #1877f2; }
 .share-wa { background: #25d366; }
+
+/* ── LANGUAGE BUTTONS ── */
+.langBtns {
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.langBtns button {
+  width: 100%;
+  padding: 14px;
+  font-size: 1.1rem;
+  border-radius: 10px;
+  background: black;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-family: Georgia, serif;
+}
+
+.langBtns button:hover  { opacity: 0.85; }
+.langBtns button:active { transform: scale(0.97); }
