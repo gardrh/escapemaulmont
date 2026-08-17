@@ -1,41 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=MedievalSharp&family=IM+Fell+English:ital@0;1&display=swap');
+
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
+/* ── BACKGROUND: parchment texture with dark vignette ── */
 body {
-  background: #5ecfb1;
-  font-family: Georgia, serif;
   min-height: 100vh;
   display: flex;
   align-items: flex-start;
   justify-content: center;
+  background-color: #1a0a00;
+  background-image:
+    radial-gradient(ellipse at center, #2e1200 0%, #0d0400 100%);
+  font-family: 'IM Fell English', Georgia, serif;
+}
+
+/* Subtle cross watermark in background */
+body::before {
+  content: '✠';
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 80vw;
+  color: rgba(180, 20, 20, 0.04);
+  pointer-events: none;
+  z-index: 0;
+  line-height: 1;
 }
 
 .game {
+  position: relative;
+  z-index: 1;
   width: 100%;
   max-width: 480px;
-  padding: 24px 16px;
+  padding: 24px 16px 32px;
 }
 
+/* ── TITLE ── */
 .title {
   text-align: center;
-  font-size: 1.4rem;
-  color: #000;
-  margin-bottom: 10px;
+  font-size: 1.5rem;
+  color: #d4a84b;
+  margin-bottom: 14px;
   line-height: 1.3;
+  letter-spacing: 0.05em;
+  text-shadow:
+    0 0 12px rgba(212, 168, 75, 0.6),
+    0 2px 4px rgba(0,0,0,0.8);
+  font-variant: small-caps;
 }
 
-/* ── CASTLE (always visible at top) ── */
+/* Decorative divider */
+.title::after {
+  content: '— ✠ —';
+  display: block;
+  font-size: 0.85rem;
+  color: #8b2020;
+  margin-top: 6px;
+  letter-spacing: 0.2em;
+  text-shadow: none;
+}
+
+/* ── CASTLE ── */
 .castle {
   width: 100%;
   height: 160px;
-  margin-bottom: 0;
+  margin-bottom: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  /* red glow underneath castle */
+  filter: drop-shadow(0 4px 18px rgba(180,20,20,0.5));
 }
 
 .castle img {
@@ -51,7 +91,7 @@ body {
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  margin-bottom: 14px;
+  margin-bottom: 20px;
   overflow: hidden;
 }
 
@@ -59,51 +99,80 @@ body {
   height: 320px;
   width: auto;
   object-fit: contain;
-  transition: opacity 0.4s ease, transform 0.4s ease, filter 0.4s ease;
+  transition: transform 0.4s ease, filter 0.4s ease;
+  filter: drop-shadow(0 6px 20px rgba(0,0,0,0.9));
 }
 
-/* Scene-specific poses via classes on #renaudImg */
-#renaudImg.flip      { transform: scaleX(-1); }
-#renaudImg.ghost     { opacity: 0.25; filter: grayscale(100%); }
-#renaudImg.dim       { filter: brightness(0.6); }
-#renaudImg.fade-in   { animation: fadeIn 0.5s ease; }
+#renaudImg.flip    { transform: scaleX(-1); }
+#renaudImg.dim     { filter: brightness(0.5) drop-shadow(0 6px 20px rgba(0,0,0,0.9)); }
+#renaudImg.fade-in { animation: fadeIn 0.5s ease; }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
+  from { opacity: 0; transform: translateY(12px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── STORY BOX ── */
+/* ── STORY BOX: parchment ── */
 .story {
-  background: white;
-  color: #111;
-  padding: 16px;
-  border-radius: 12px;
+  background:
+    linear-gradient(160deg, #f5e6c8 0%, #ecdcb0 40%, #e0ca90 100%);
+  color: #2a1400;
+  padding: 18px 16px;
+  border-radius: 4px;
   min-height: 140px;
-  line-height: 1.6;
+  line-height: 1.7;
   margin-bottom: 16px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
   font-size: 1rem;
   white-space: pre-wrap;
+  font-style: italic;
+  /* aged parchment border */
+  border: 2px solid #8b2020;
+  box-shadow:
+    0 0 0 4px #4a1008,
+    0 0 0 6px #8b2020,
+    0 8px 30px rgba(0,0,0,0.7),
+    inset 0 0 40px rgba(139,80,20,0.15);
+  position: relative;
 }
 
+/* Templar cross corners */
+.story::before,
+.story::after {
+  content: '✠';
+  position: absolute;
+  color: #8b2020;
+  font-size: 1rem;
+  font-style: normal;
+  opacity: 0.7;
+}
+.story::before { top: 6px; left: 8px; }
+.story::after  { bottom: 6px; right: 8px; }
+
+/* ── INPUT ── */
 input {
   width: 100%;
-  padding: 12px 14px;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-  background: white;
-  color: #111;
+  padding: 13px 16px;
+  border-radius: 3px;
+  border: 2px solid #8b2020;
+  background: #1e0c00;
+  color: #d4a84b;
   font-size: 1rem;
-  font-family: Georgia, serif;
+  font-family: 'IM Fell English', Georgia, serif;
   margin-bottom: 12px;
+  box-shadow:
+    0 0 0 3px #4a1008,
+    inset 0 2px 6px rgba(0,0,0,0.6);
+  letter-spacing: 0.03em;
 }
 
+input::placeholder { color: #7a5530; font-style: italic; }
 input:focus {
   outline: none;
-  border-color: #999;
+  border-color: #d4a84b;
+  box-shadow: 0 0 0 3px #4a1008, 0 0 12px rgba(212,168,75,0.3), inset 0 2px 6px rgba(0,0,0,0.6);
 }
 
+/* ── BUTTONS ── */
 .btnRow {
   display: flex;
   gap: 10px;
@@ -111,42 +180,30 @@ input:focus {
 
 button {
   flex: 1;
-  padding: 13px;
-  border-radius: 10px;
-  border: none;
-  background: black;
-  color: white;
+  padding: 14px;
+  border-radius: 3px;
+  border: 2px solid #8b2020;
+  background: linear-gradient(180deg, #3a0a0a 0%, #1a0404 100%);
+  color: #d4a84b;
   font-size: 1rem;
-  font-family: Georgia, serif;
+  font-family: 'IM Fell English', Georgia, serif;
+  font-variant: small-caps;
+  letter-spacing: 0.1em;
   cursor: pointer;
-  transition: opacity 0.15s;
+  text-shadow: 0 0 8px rgba(212,168,75,0.4);
+  box-shadow:
+    0 0 0 3px #4a1008,
+    0 4px 12px rgba(0,0,0,0.6);
+  transition: all 0.15s;
 }
 
-button:hover  { opacity: 0.85; }
+button:hover {
+  background: linear-gradient(180deg, #5a1010 0%, #2a0808 100%);
+  color: #f0c870;
+  text-shadow: 0 0 12px rgba(212,168,75,0.7);
+}
+
 button:active { transform: scale(0.97); }
-
-/* ── SHARE BUTTONS (finish screen) ── */
-.share-row {
-  display: flex;
-  gap: 8px;
-  margin-top: 16px;
-  flex-wrap: wrap;
-}
-
-.share-btn {
-  flex: 1;
-  padding: 11px 8px;
-  border-radius: 10px;
-  border: none;
-  color: white;
-  font-size: 0.9rem;
-  cursor: pointer;
-  min-width: 80px;
-}
-
-.share-x  { background: #000; }
-.share-fb { background: #1877f2; }
-.share-wa { background: #25d366; }
 
 /* ── LANGUAGE BUTTONS ── */
 .langBtns {
@@ -158,15 +215,24 @@ button:active { transform: scale(0.97); }
 
 .langBtns button {
   width: 100%;
-  padding: 14px;
   font-size: 1.1rem;
-  border-radius: 10px;
-  background: black;
-  color: white;
-  border: none;
-  cursor: pointer;
-  font-family: Georgia, serif;
 }
 
-.langBtns button:hover  { opacity: 0.85; }
-.langBtns button:active { transform: scale(0.97); }
+/* ── SHARE BUTTONS ── */
+.share-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.share-btn {
+  flex: 1;
+  padding: 11px 8px;
+  font-size: 0.9rem;
+  min-width: 80px;
+}
+
+.share-x  { background: linear-gradient(180deg, #222 0%, #000 100%); }
+.share-fb { background: linear-gradient(180deg, #2a5fc4 0%, #1a3d8f 100%); }
+.share-wa { background: linear-gradient(180deg, #30c060 0%, #1a7a3a 100%); }
