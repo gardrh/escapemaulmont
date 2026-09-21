@@ -3,7 +3,7 @@
    Languages: no / en / fr
 ══════════════════════════════════════════ */
 
-const SHEET_URL = "https://script.google.com/macros/s/AKfycbxaehkNAtmNsZwVZbQ1E0STA6gicXZDRVvL4dODp1IVXKu5Fw3dVGitB0fgF4agIyuE4A/exec";
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbxXapb6VycmReoTJWVlgnTWlODWk-M-aB9Bq3yQVfc2Fb204kW1nRBzQl7-jy0fgrqR/exec";
 
 let lang        = 'no';
 let playerName  = sessionStorage.getItem('maulmont_name') || '';
@@ -29,7 +29,7 @@ const script = {
       answers:["_wedding_"], hints:["Hva heter de som skal gifte seg?","Det er to navn — ett mannsnavn og ett kvinnenavn."] },
     { renaud:"img/renaud3.png", cls:"",
       text:"Gudrun og Jens ja, barbarer slik jeg trodde — det kunne ikke vært Pierre, eller Louis, eller Michelle eller Edith eller lignende.\n\nHvor er det disse hedningene kommer fra da?",
-      answers:["skjåk","skjaak"], hints:["Hva heter stedet Gudrun og Jens kommer fra?","Det er et sted i Oppland."] },
+      answers:["skjåk","skjaak","skjak"], hints:["Hva heter stedet Gudrun og Jens kommer fra?","Det er et sted i Oppland."] },
     { renaud:"img/renaud4.png", cls:"",
       text:"Ja, jeg har snakket med en annen helligmann — Olav den Hellig var det vel. Det er synd å brenne så fager ei bygd, skal han ha sagt om Skjåk. Vel vel, biensur og nok om det.\n\nJeg har helt glemt rustningen min, kan dere si meg hvor jeg har lagt den?",
       answers:["resepsjonen","resepsjon","foajeen","inngangen"], hints:["Hva heter dette rommet i hotellverden?","Det er stedet du sjekker inn når du ankommer et hotell."] },
@@ -58,7 +58,7 @@ const script = {
       answers:["_wedding_"], hints:["What are the names of the couple getting married?","Two names — one male, one female."] },
     { renaud:"img/renaud3.png", cls:"",
       text:"Gudrun and Jens — barbarians, just as I suspected. It couldn't have been Pierre, or Louis, or Michelle or Edith or anything civilised.\n\nAnd where exactly do these heathens come from?",
-      answers:["skjåk","skjaak"], hints:["What is the name of the place where Gudrun and Jens come from?","It is a place in the Oppland region of Norway."] },
+      answers:["skjåk","skjaak","skjak"], hints:["What is the name of the place where Gudrun and Jens come from?","It is a place in the Oppland region of Norway."] },
     { renaud:"img/renaud4.png", cls:"",
       text:"Yes, I once spoke with another holy man — Olav the Holy, it was. 'What a shame to burn so fair a village,' he said of Skjåk. Well, biensur, enough of that.\n\nI have completely forgotten where I left my armour — could you tell me where it is?",
       answers:["reception","the reception","lobby","the lobby","entrance","the entrance"], hints:["What do hotels call this room?","It is where you check in when you arrive at a hotel."] },
@@ -87,7 +87,7 @@ const script = {
       answers:["_wedding_"], hints:["Quels sont les noms des mariés ?","Deux prénoms — un masculin, un féminin."] },
     { renaud:"img/renaud3.png", cls:"",
       text:"Gudrun et Jens — des barbares, comme je le pensais. Ça ne pouvait pas être Pierre, ou Louis, ou Michelle ou Édith ou quelque chose de civilisé.\n\nEt d'où viennent exactement ces païens ?",
-      answers:["skjåk","skjaak"], hints:["Comment s'appelle l'endroit d'où viennent Gudrun et Jens ?","C'est un endroit dans la région d'Oppland en Norvège."] },
+      answers:["skjåk","skjaak","skjak"], hints:["Comment s'appelle l'endroit d'où viennent Gudrun et Jens ?","C'est un endroit dans la région d'Oppland en Norvège."] },
     { renaud:"img/renaud4.png", cls:"",
       text:"Oui, j'ai parlé une fois à un autre homme saint — Olav le Saint, c'était lui. « Quel dommage de brûler un si beau village », dit-il à propos de Skjåk. Enfin, biensur, n'en parlons plus.\n\nJ'ai complètement oublié où j'ai laissé mon armure — pourriez-vous me dire où elle est ?",
       answers:["réception","la réception","reception","entrée","hall"], hints:["Comment appelle-t-on cette pièce dans un hôtel ?","C'est là où vous vous enregistrez à votre arrivée."] },
