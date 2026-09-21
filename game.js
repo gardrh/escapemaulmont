@@ -222,8 +222,8 @@ function handleSkip() {
 function handleHint() {
   const s = script[lang][currentScene];
   if (!s.hints.length) return;
-  const hint = s.hints[Math.min(hintIndex, s.hints.length - 1)];
-  hintIndex = Math.min(hintIndex + 1, s.hints.length);
+  const hint = s.hints[hintIndex % s.hints.length];
+  hintIndex++;
   setFeedback('💡 ' + hint, 'hint');
 }
 
