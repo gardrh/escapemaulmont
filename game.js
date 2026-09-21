@@ -266,6 +266,10 @@ function finishGame() {
 
   story.innerHTML = `🎉 ${story.innerHTML}<br><br>${timeStr}`;
 
+  const board = document.getElementById('leaderboard');
+  board.style.display = 'block';
+  board.innerHTML = `<div class="lb-title">⚔ ${ui[lang].leaderboard} ⚔</div><div class="lb-loading">⏳ ${lang === 'fr' ? 'Chargement...' : lang === 'en' ? 'Saving & loading results...' : 'Lagrer & laster resultater...'}</div>`;
+
   sendScore(playerName, elapsed, skipped);
 }
 
@@ -279,8 +283,8 @@ function sendScore(name, time, skips) {
     + "&type=complete";
 
   fetch(url, { mode: "no-cors" })
-    .then(() => setTimeout(loadLeaderboard, 1500))
-    .catch(() => setTimeout(loadLeaderboard, 1500));
+    .then(() => setTimeout(loadLeaderboard, 3000))
+    .catch(() => setTimeout(loadLeaderboard, 3000));
 }
 
 /* ── GOOGLE SHEETS: GET leaderboard ── */
