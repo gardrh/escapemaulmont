@@ -269,16 +269,18 @@ function finishGame() {
   sendScore(playerName, elapsed, skipped);
 }
 
-/* ── GOOGLE SHEETS: POST score ── */
+/* ── GOOGLE SHEETS: Send score via GET (no CORS issues) ── */
 function sendScore(name, time, skips) {
-  fetch(SHEET_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ player: name, lang: lang, time: time, skipped: skips })
-  })
-  .then(res => res.text())
-  .then(() => loadLeaderboard())
-  .catch(() => loadLeaderboard());
+  const url = SHEET_URL
+    + "?player=" + encodeURIComponent(name)
+    + "&time="    + encodeURIComponent(time)
+    + "&skipped=" + encodeURIComponent(skips)
+    + "&lang="    + encodeURIComponent(lang)
+    + "&type=complete";
+
+  fetch(url, { mode: "no-cors" })
+    .then(() => setTimeout(loadLeaderboard, 1500))
+    .catch(() => setTimeout(loadLeaderboard, 1500));
 }
 
 /* ── GOOGLE SHEETS: GET leaderboard ── */
@@ -292,7 +294,7 @@ function loadLeaderboard() {
   const u = ui[lang];
   board.innerHTML = `<div class="lb-title">⚔ ${u.leaderboard} ⚔</div><div class="lb-loading">...</div>`;
 
-  fetch(SHEET_URL)
+  fetch(SHEET_URL + "?type=leaderboard&t=" + Date.now())
     .then(res => res.json())
     .then(data => {
       allRows = data;
@@ -300,7 +302,7 @@ function loadLeaderboard() {
       renderLeaderboard();
     })
     .catch(() => {
-      board.innerHTML += `<div class="lb-error">Could not load results.</div>`;
+      board.innerHTML = `<div class="lb-title">⚔ ${u.leaderboard} ⚔</div><div class="lb-error">Could not load results.</div>`;
     });
 }
 
